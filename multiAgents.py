@@ -154,7 +154,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
                 successorState = gameState.generateSuccessor(0, action)
                 successor = minValue(successorState, 1,0)
                 successorValue = successor
-                if (successorValue > v):
+                if successorValue > v:
                     v = successorValue
                     bestAction = action
             return bestAction
@@ -169,7 +169,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
                 successorState = gameState.generateSuccessor(agentIndex, action)
                 successor = minValue(successorState, 1, depth+1)
                 successorValue = successor
-                if (successorValue > maxv):
+                if successorValue > maxv:
                     maxv = successorValue
             return maxv
 
@@ -187,7 +187,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
                 else:
                     successor = minValue(successorState, agentIndex+1, depth)
                 successorValue = successor
-                if (successorValue < minv):
+                if successorValue < minv:
                     minv = successorValue
             return minv
     
@@ -215,7 +215,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
                 successorState = gameState.generateSuccessor(0, action)
                 successor = minValue(successorState, 1,0, alpha, beta)
                 successorValue = successor
-                if (successorValue > v):
+                if successorValue > v:
                     v = successorValue
                     bestAction = action
                 alpha = max(alpha, v)
@@ -231,7 +231,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
                 successorState = gameState.generateSuccessor(agentIndex, action)
                 successor = minValue(successorState, 1, depth+1, alpha, beta)
                 successorValue = successor
-                if (successorValue > maxv):
+                if successorValue > maxv:
                     maxv = successorValue
                 if maxv > beta:
                     return maxv
