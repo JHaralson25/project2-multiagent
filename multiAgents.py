@@ -276,7 +276,59 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         legal moves.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        total_agents = gameState.getNumAgents()-1
+        def miniMax(gameState, agentIndex, depth):
+            v = float("-inf")
+            bestAction = None
+
+            actions = gameState.getLegalActions(0)
+
+            for action in actions:
+                successorState = gameState.generateSuccessor(0, action)
+                successor = minValue(successorState, 1,0)
+                successorValue = successor
+                if successorValue > v:
+                    v = successorValue
+                    bestAction = action
+            return bestAction
+            
+        def maxValue(gameState, agentIndex, depth):
+            if gameState.isWin() or gameState.isLose() or depth == self.depth-1:
+                return self.evaluationFunction(gameState)
+            maxv = float("-inf")
+            actions = gameState.getLegalActions(agentIndex)
+
+            for action in actions:
+                successorState = gameState.generateSuccessor(agentIndex, action)
+                successor = minValue(successorState, 1, depth+1)
+                successorValue = successor
+                if successorValue > maxv:
+                    maxv = successorValue
+            return maxv
+
+        def minValue(gameState, agentIndex, depth):
+            if gameState.isWin() or gameState.isLose():
+                return self.evaluationFunction(gameState)
+            minv = float("inf")
+
+            actions = gameState.getLegalActions(agentIndex)
+            values = [];
+
+            for action in actions:
+                successorState = gameState.generateSuccessor(agentIndex, action)
+                if agentIndex == total_agents:
+                    successor = maxValue(successorState, 0, depth)
+                else:
+                    successor = minValue(successorState, agentIndex+1, depth)
+                successorValue = successor
+                if successorValue < minv:
+                    values.append(successorValue)
+
+                expectedv = sum(values)/len(values)
+            return expectedv
+    
+        max = miniMax(gameState, 0, 0)
+        return max
 
 def betterEvaluationFunction(currentGameState):
     """
